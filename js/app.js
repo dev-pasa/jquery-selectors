@@ -23,7 +23,7 @@ hornObjClone.find('img').attr('src', this.image_url).attr('alt', this.descriptio
 hornObjClone.find('p').text(this.description);
 
 hornObjClone.removeClass('clone');
-hornObjClone.attr('class', this.title);
+hornObjClone.addClass(this.keyword);
 }
 
 Horn.readJson = () =>{
@@ -34,10 +34,32 @@ Horn.readJson = () =>{
     });
   })
   .then(Horn.loadHorns)
+  .then(selectKeyWord)
 }
+
 
 Horn.loadHorns = () => {
   Horn.allhorns.forEach(hornObj => hornObj.render())
 }
+
+
+const selectKeyWord = function() {
+  let uniqueArr =[];
+
+ Horn.allhorns.forEach((obj) => {
+   if(!uniqueArr.includes(obj.keyword)){
+     uniqueArr.push(obj.keyword)}
+   })
+uniqueArr.forEach((obj)=> {
+$('select').append($('<option>',{value: obj, text: obj}));
+})}
+
+
+$('select').on('change',function(){
+let $selection = $(this).val();
+$('div').hide()
+
+$(`div[class = "${$selection}"]`).show()
+})
 
 $(() => Horn.readJson());
