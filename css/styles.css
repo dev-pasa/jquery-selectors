@@ -1,0 +1,40 @@
+* {
+  background-color: bisque;
+}
+
+main {
+  width: 960px;
+  margin: 0 auto;
+}
+
+header {
+  width: 960px;
+  font-size: 40px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+div {
+  width: 300px;
+  height: 550px;
+  float: left;
+  margin: 8px;
+  text-align: center;
+  border-radius: 15px;
+  background-color: whitesmoke;
+}
+
+img {
+  width: 290px;
+  border-radius: 15px;
+}
+
+div p {
+  font-size: 18px;
+  padding: 10px 25px 10px 25px;
+  background-color: whitesmoke;
+}
+
+div h2 {
+  background-color: whitesmoke;
+}
