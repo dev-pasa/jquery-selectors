@@ -13,64 +13,63 @@ $('nav a').on('click', function(){
 let $selectedGallery = $(this).data('tab');
 // console.log('Curent gallery: ', $selectedGallery);
 $('.tab-content').hide();
+Horn.allhorns = []
+$('main section').html("");
 
 if ($selectedGallery === 'gallery-1') {
-  $('main section')
   $(() => Horn.readJson1());
+
   $('#' + $selectedGallery).fadeIn(300)
 }
+
 if ($selectedGallery === 'gallery-2') {
+  console.log("Is clicked:")
   $(() => Horn.readJson2());
+  Horn.allhorns.forEach(hornObj =>{
+    $('#gallery-2').append(hornObj.toHtml());
+  })
   $('#' + $selectedGallery).fadeIn(300)
 }
 })
 
 Horn.allhorns=[];
 
-Horn.prototype.render = function(){
-  $('main').append('<div class="clone"></div>');
-
-  let hornObjClone = $('div[class="clone"]');
-  let hornObjHtml = $('#photo-template').html();
-
-  hornObjClone.html(hornObjHtml);
-
-  hornObjClone.find('h2').text(this.title);
-  hornObjClone.find('img').attr('src', this.image_url).attr('alt', this.description).attr('title', this.keyword);
-  hornObjClone.find('p').text(this.description);
-
-  hornObjClone.removeClass('clone');
-  hornObjClone.addClass(this.keyword);
+Horn.prototype.toHtml = function(){
+  const source = $('#photo-Template').html();
+  const template = Handlebars.compile(source);
+  return template(this);
 }
 
 Horn.readJson1 = () =>{
   $.get('data/page-1.json', 'json')
-    .then(Horn.allhorns.splice(0, Horn.allhorns.length))
     .then(data => {
       data.forEach(obj => {
         Horn.allhorns.push(new Horn(obj));
       });
-    })
-    .then(Horn.loadHorns)
+      Horn.allhorns.forEach(hornObj =>{
+        $('#gallery-1').append(hornObj.toHtml());
+      })
+      })
     .then(selectKeyWord)
 }
 
 
 Horn.readJson2 = () =>{
   $.get('data/page-2.json', 'json')
-    .then(Horn.allhorns.splice(0, Horn.allhorns.length))
     .then(data => {
       data.forEach(obj => {
         Horn.allhorns.push(new Horn(obj));
       });
-    })
-    .then(Horn.loadHorns)
+      console.log(Horn.allhorns);
+      
+      Horn.allhorns.forEach(hornObj =>{
+        $('#gallery-2').append(hornObj.toHtml());
+      })
+      })
+    // .then(Horn.loadHorns)
     .then(selectKeyWord)
 }
 
-Horn.loadHorns = () => {
-  Horn.allhorns.forEach(hornObj => hornObj.render())
-}
 
 const selectKeyWord = function() {
   let uniqueArr =[];
