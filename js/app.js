@@ -8,6 +8,23 @@ function Horn(hornObj) {
   this.horns = hornObj.horns;
 }
 
+
+$('nav a').on('click', function(){
+let $selectedGallery = $(this).data('tab');
+// console.log('Curent gallery: ', $selectedGallery);
+$('.tab-content').hide();
+
+if ($selectedGallery === 'gallery-1') {
+  $('main section')
+  $(() => Horn.readJson1());
+  $('#' + $selectedGallery).fadeIn(300)
+}
+if ($selectedGallery === 'gallery-2') {
+  $(() => Horn.readJson2());
+  $('#' + $selectedGallery).fadeIn(300)
+}
+})
+
 Horn.allhorns=[];
 
 Horn.prototype.render = function(){
@@ -26,8 +43,22 @@ Horn.prototype.render = function(){
   hornObjClone.addClass(this.keyword);
 }
 
-Horn.readJson = () =>{
+Horn.readJson1 = () =>{
   $.get('data/page-1.json', 'json')
+    .then(Horn.allhorns.splice(0, Horn.allhorns.length))
+    .then(data => {
+      data.forEach(obj => {
+        Horn.allhorns.push(new Horn(obj));
+      });
+    })
+    .then(Horn.loadHorns)
+    .then(selectKeyWord)
+}
+
+
+Horn.readJson2 = () =>{
+  $.get('data/page-2.json', 'json')
+    .then(Horn.allhorns.splice(0, Horn.allhorns.length))
     .then(data => {
       data.forEach(obj => {
         Horn.allhorns.push(new Horn(obj));
@@ -60,4 +91,8 @@ $('select').on('change',function(){
   $(`div[class = "${$selection}"]`).show()
 })
 
-$(() => Horn.readJson());
+$(document).ready(function(){
+  $('.tab-content').hide();
+})
+
+// $(() => Horn.readJson());
