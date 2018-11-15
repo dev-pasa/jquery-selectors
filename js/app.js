@@ -15,6 +15,7 @@ let $selectedGallery = $(this).data('tab');
 $('.tab-content').hide();
 
 if ($selectedGallery === 'gallery-1') {
+  $('main section')
   $(() => Horn.readJson1());
   $('#' + $selectedGallery).fadeIn(300)
 }
