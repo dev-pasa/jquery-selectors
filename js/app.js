@@ -37,11 +37,9 @@ Horn.readJson = () =>{
     .then(selectKeyWord)
 }
 
-
 Horn.loadHorns = () => {
   Horn.allhorns.forEach(hornObj => hornObj.render())
 }
-
 
 const selectKeyWord = function() {
   let uniqueArr =[];
@@ -49,12 +47,12 @@ const selectKeyWord = function() {
   Horn.allhorns.forEach((obj) => {
     if(!uniqueArr.includes(obj.keyword)){
       uniqueArr.push(obj.keyword)}
-})
+  })
 
   uniqueArr.forEach((obj)=> {
     $('select').append($('<option>',{value: obj, text: obj}));
-})}
-
+  })
+}
 
 $('select').on('change',function(){
   let $selection = $(this).val();
