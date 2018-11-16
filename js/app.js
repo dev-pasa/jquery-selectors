@@ -45,12 +45,9 @@ Horn.readJson1 = () =>{
       data.forEach(obj => {
         Horn.allhorns.push(new Horn(obj));
       });
-      Horn.allhorns.forEach(hornObj =>{
-        $('#gallery-1').append(hornObj.toHtml());
-      })
+      renderHorns('#gallery-1')
     })
     .then(selectKeyWord)
-    .then(buildSortByHorn)
 }
 
 
@@ -60,65 +57,45 @@ Horn.readJson2 = () =>{
       data.forEach(obj => {
         Horn.allhorns.push(new Horn(obj));
       });
-
-      Horn.allhorns.forEach(hornObj =>{
-        $('#gallery-2').append(hornObj.toHtml());
-      })
+      renderHorns('#gallery-2')
     })
     .then(selectKeyWord)
-    .then(buildSortByHorn)
 }
 
 
 const selectKeyWord = function() {
   let uniqueArr = [];
-  $('#filterKeyWord').html("");
+  $('#filterKeyWord').html('');
   $('#filterKeyWord').prepend($('<option>', {value: 'default', text: 'Filter by Keyword'}))
   Horn.allhorns.forEach((obj) => {
     if(!uniqueArr.includes(obj.keyword)){
       uniqueArr.push(obj.keyword)}
   })
-
   uniqueArr.forEach((obj)=> {
     $('#filterKeyWord').append($('<option>',{value: obj, text: obj}));
   })
 }
 
-$('#ascendHornSort').on('checked', function () {
-  Horn.allhorns.sort((a,b) => {
-    a.horns - b.horns;
-  });
-});
+const renderHorns = function (gallery) {
+  if ($('#ascendHornSort').is(':checked')) {
+    Horn.allhorns.sort((a,b) => a.horns - b.horns);
 
-
-const renderHorns = function () {
-  if ($('#ascendHornSort').is(":checked")) {
-    $('#ascendHornSort').on('checked', function () {
-      Horn.allhorns.sort((a,b) => a - b
-      )}
-    )}
+    Horn.allhorns.forEach(hornObj =>{
+      $(gallery).append(hornObj.toHtml());
+    })
+  } else {
+    Horn.allhorns.forEach(hornObj =>{
+      $(gallery).append(hornObj.toHtml());
+    })
+  }
 }
-
-// const buildSortByHorn = function () {
-//   let uniqueHornArray = [];
-//   $('#numberOfHorns').html("");
-//   $('#numberOfHorns').prepend($('<option>', {value: 'defaultHorn', text: 'Sort by Number of Horns'}))
-
-//   Horn.allhorns.forEach((obj) => {
-//     if(!uniqueHornArray.includes(obj.horns)){
-//       uniqueHornArray.push(obj.horns)}
-//   })
-
-//   uniqueHornArray.forEach((obj)=> {
-//     $('#numberOfHorns').append($('<option>',{value: obj, text: obj}));
-//   })
-// }
 
 $('#filterKeyWord').on('change',function(){
   let $selection = $(this).val();
   $('div').hide()
   $(`div[class = "${$selection}"]`).show()
 })
+
 
 $(document).ready(function(){
   $('.tab-content').hide();
