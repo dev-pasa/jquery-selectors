@@ -5,6 +5,7 @@
   <head>
     <title>The Gallery of Horns</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
     <script id="photo-Template" type="text/x-handlebars-template">
       <div class={{keyword}} >
@@ -31,9 +32,12 @@
 
     
     <main>
-      <select>
+      <select id="filterKeyWord">
         <option value="default">Filter by Keyword</option>
       </select>
+
+      <p>Sort by Most Horns<input type="checkbox" id="ascendHornSort"></p>
+
 
       <section id="gallery-1" class="tab-content">
       </section>
