@@ -48,7 +48,24 @@ div {
   align-items: center;
 }
 
-div:hover{
+aside {
+  width: 600px;
+  height: 100px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 40px;
+  background-color: whitesmoke;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+aside p {
+  background-color: whitesmoke;
+}
+
+section div:hover{
   -ms-transform: scale(1.5);
   -webkit-transform: scale(1.5);
   transform: scale(1.5);
