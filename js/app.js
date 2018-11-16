@@ -50,6 +50,7 @@ Horn.readJson1 = () =>{
       })
     })
     .then(selectKeyWord)
+    .then(buildSortByHorn)
 }
 
 
@@ -64,25 +65,56 @@ Horn.readJson2 = () =>{
         $('#gallery-2').append(hornObj.toHtml());
       })
     })
-    // .then(Horn.loadHorns)
     .then(selectKeyWord)
+    .then(buildSortByHorn)
 }
 
 
 const selectKeyWord = function() {
-  let uniqueArr =[];
-
+  let uniqueArr = [];
+  $('#filterKeyWord').html("");
+  $('#filterKeyWord').prepend($('<option>', {value: 'default', text: 'Filter by Keyword'}))
   Horn.allhorns.forEach((obj) => {
     if(!uniqueArr.includes(obj.keyword)){
       uniqueArr.push(obj.keyword)}
   })
 
   uniqueArr.forEach((obj)=> {
-    $('select').append($('<option>',{value: obj, text: obj}));
+    $('#filterKeyWord').append($('<option>',{value: obj, text: obj}));
   })
 }
 
-$('select').on('change',function(){
+$('#ascendHornSort').on('checked', function () {
+  Horn.allhorns.sort((a,b) => {
+    a.horns - b.horns;
+  });
+});
+
+
+const renderHorns = function () {
+  if ($('#ascendHornSort').is(":checked")) {
+    $('#ascendHornSort').on('checked', function () {
+      Horn.allhorns.sort((a,b) => a - b
+      )}
+    )}
+}
+
+// const buildSortByHorn = function () {
+//   let uniqueHornArray = [];
+//   $('#numberOfHorns').html("");
+//   $('#numberOfHorns').prepend($('<option>', {value: 'defaultHorn', text: 'Sort by Number of Horns'}))
+
+//   Horn.allhorns.forEach((obj) => {
+//     if(!uniqueHornArray.includes(obj.horns)){
+//       uniqueHornArray.push(obj.horns)}
+//   })
+
+//   uniqueHornArray.forEach((obj)=> {
+//     $('#numberOfHorns').append($('<option>',{value: obj, text: obj}));
+//   })
+// }
+
+$('#filterKeyWord').on('change',function(){
   let $selection = $(this).val();
   $('div').hide()
   $(`div[class = "${$selection}"]`).show()
